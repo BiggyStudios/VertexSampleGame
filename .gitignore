@@ -49,6 +49,8 @@ artifacts/
 *.ilk
 *.meta
 *.obj
+# ...but .obj models in the game's assets are 3D models, not build output.
+!**/Assets/**/*.obj
 *.pch
 *.pdb
 *.pgc
