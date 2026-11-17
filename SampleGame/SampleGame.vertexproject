@@ -1,0 +1,8 @@
+{
+  "Name": "SampleGame",
+  "Version": "0.1",
+  "StartupScene": "",
+  "GameProject": "SampleGame.csproj",
+  "PhysicsRate": 60,
+  "ShadowResolution": 2048
+}

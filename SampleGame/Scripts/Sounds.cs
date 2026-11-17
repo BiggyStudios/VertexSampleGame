@@ -28,7 +28,7 @@ namespace SampleGame
         public static AudioClip GrappleShot { get; } = CreateGrappleShot();
 
         /// <summary>Bounce pads. Recorded rather than made here: Assets/Sounds/Bouncepad.wav.</summary>
-        public static AudioClip Bounce { get; } = AudioClip.Load(Path.Combine(AppContext.BaseDirectory, "Assets", "Sounds", "Bouncepad.wav"));
+        public static AudioClip Bounce { get; } = AudioClip.Load(Vertex.Application.AssetPath("Sounds", "Bouncepad.wav"));
 
         /// <summary>
         /// A rifle shot built from four layers: a sharp crack, a burst of muffled noise for the bang, a falling low

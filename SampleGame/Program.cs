@@ -108,7 +108,7 @@ namespace SampleGame
                 CreateCrate(new Vector3(1.5f, 0.5f + i * 1.5f, -3f), new Vector3(0f, i * 17f, 0f));
             }
 
-            GameObject house = Model.Load(Path.Combine(AppContext.BaseDirectory, "Assets", "Models", "house.obj"));
+            GameObject house = Model.Load(Application.AssetPath("Models", "house.obj"));
             house.Transform.Position = new Vector3(-4.5f, 0f, -1f);
             house.Transform.EulerAngles = new Vector3(0f, 25f, 0f);
 
