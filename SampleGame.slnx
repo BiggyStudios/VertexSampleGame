@@ -1,5 +1,9 @@
 <Solution>
-  <Project Path="Engine/Vertex/Vertex.csproj" />
+  <!-- The engine around this folder, so one solution builds and tests both. -->
+  <Folder Name="/Engine/">
+    <Project Path="../Vertex.Tests/Vertex.Tests.csproj" />
+    <Project Path="../Vertex/Vertex.csproj" />
+  </Folder>
   <Project Path="SampleGame.Tests/SampleGame.Tests.csproj" />
   <Project Path="SampleGame/SampleGame.csproj" />
 </Solution>

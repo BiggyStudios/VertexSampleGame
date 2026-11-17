@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- The engine, from the Engine submodule (see the README if the folder is empty). -->
-    <ProjectReference Include="..\Engine\Vertex\Vertex.csproj"/>
+    <!-- The engine this repo is cloned inside (see the README), so engine changes show up in the game straight away. -->
+    <ProjectReference Include="..\..\Vertex\Vertex.csproj"/>
   </ItemGroup>
 
   <ItemGroup>

@@ -5,38 +5,28 @@ A Source-style multiplayer shooter (surf, grapples, rockets, bots, Steam lobbies
 
 ## Getting it
 
-The engine comes in as a git submodule in the `Engine` folder, so clone with `--recursive`:
+The game builds against the engine it's cloned inside, so clone the engine first and the game into it:
 
 ```
-git clone --recursive https://github.com/BiggyStudios/VertexSampleGame.git
+git clone https://github.com/BiggyStudios/Vertex.git
+cd Vertex
+git clone https://github.com/BiggyStudios/VertexSampleGame.git
 ```
 
-Already cloned without it? Run `git submodule update --init`.
+The engine repo ignores the `VertexSampleGame` folder, so the two stay separate repositories: commit and push each
+from its own folder. Changes to the engine show up in the game straight away.
 
 ## Running it
 
 ```
+cd VertexSampleGame
 dotnet run --project SampleGame
 ```
 
 It renders with Vulkan where it can and falls back to OpenGL; pass `-opengl` to choose OpenGL.
 
-`dotnet test` plays the game headless for a few seconds, to check a new engine version hasn't broken it.
-
-## Updating the engine
-
-`Engine` is pinned to one engine commit. To move to a newer one:
-
-```
-cd Engine
-git pull origin master
-cd ..
-git add Engine
-git commit -m "Update the engine"
-```
-
-You can also change the engine right there in `Engine` (it's a full checkout of the Vertex repo): commit and push
-those changes from inside `Engine`, then commit the new `Engine` pointer here.
+`dotnet test SampleGame.slnx` runs the engine's tests and then plays the game headless for a few seconds, to check
+engine changes haven't broken it.
 
 ## License
 
