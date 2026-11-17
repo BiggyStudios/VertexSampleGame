@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Engine/Vertex/Vertex.csproj" />
+  <Project Path="SampleGame.Tests/SampleGame.Tests.csproj" />
+  <Project Path="SampleGame/SampleGame.csproj" />
+</Solution>
