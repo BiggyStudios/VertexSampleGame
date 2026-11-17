@@ -56,37 +56,31 @@ namespace SampleGame
             DevConsole.Font = Fonts.Regular;
             GameCommands.Register(player, multiplayer);
 
-            // Night in the city: cold moonlight from high up, a deep blue sky glowing purple at the horizon where the city
-            // lights it from below, and a thin haze that the far towers fade into. The moon is the sky's sun disc.
-            var moon = new GameObject("Moon");
-            Light moonLight = moon.AddComponent<Light>();
-            moonLight.Color = new Color(0.6f, 0.68f, 1f);
-            moonLight.Intensity = 0.65f;
-            moon.Transform.EulerAngles = new Vector3(-55f, 30f, 0f);
+            // A clear afternoon: the sun high in the south-west, a few clouds drifting over, and a light haze far off.
+            // The sky follows the sun, so turning it changes the time of day: lower, and it all goes golden.
+            var sun = new GameObject("Sun");
+            Light sunLight = sun.AddComponent<Light>();
+            sunLight.Color = new Color(1f, 0.96f, 0.9f);
+            sunLight.Intensity = 2.6f;
+            sun.Transform.EulerAngles = new Vector3(-50f, 35f, 0f);
 
-            Lighting night = Scene.Active.Lighting;
-            night.SkyColor = new Color(0.03f, 0.035f, 0.1f);
-            night.HorizonColor = new Color(0.34f, 0.13f, 0.4f);
-            night.GroundColor = new Color(0.06f, 0.035f, 0.1f);
-            night.AmbientIntensity = 2.6f;
-            night.FogDensity = 0.0013f;
-            night.Bloom = 1.4f;
+            Lighting day = Scene.Active.Lighting;
+            day.CloudCover = 0.45f;
+            day.FogDensity = 0.0011f;
+            // The sea, seen below the horizon and bouncing a little of its colour back up.
+            day.GroundColor = new Color(0.16f, 0.26f, 0.32f);
 
-            // The city all round, far below and out to the horizon, and the cars flying over it.
-            CityBackdrop.Build();
-            Traffic.Build();
-
-            // A light toon touch: banded light, crisp highlights and soft outlines round things, the gun in your hands
-            // most of all. Not a full comic-book look; mat_celshading and mat_outlines in the console change it.
-            Scene.Active.Lighting.CelShading = 0.5f;
-            Scene.Active.Lighting.Outlines = 0.85f;
+            // The sea far below, out to the horizon all round: the maps are islands in the sky above it.
+            MapBuilder.Water("Sea", new Vector3(0f, -160f, 200f), new Vector2(14000f, 14000f));
 
             var ground = new GameObject("Ground");
             ground.Transform.Scale = new Vector3(30f, 1f, 30f);
             MeshRenderer groundRenderer = ground.AddComponent<MeshRenderer>();
             groundRenderer.Mesh = Primitives.CreatePlane(uvScale: 15f);
-            groundRenderer.Material.Texture = Texture.CreateCheckerboard(new Color(0.75f, 0.75f, 0.75f), new Color(0.55f, 0.55f, 0.55f), squares: 2);
-            groundRenderer.Material.Specular = 0.05f;
+            Texture groundTiles = MapBuilder.Checker(new Color(0.75f, 0.75f, 0.75f), new Color(0.58f, 0.58f, 0.57f));
+            groundRenderer.Material.Texture = groundTiles;
+            groundRenderer.Material.NormalMap = Surfaces.NormalMapFor(groundTiles);
+            groundRenderer.Material.Roughness = 0.75f;
             // A full-height box whose top sits at y = 0, flush with the plane. Thick ground is harder to fall through.
             ground.AddComponent<BoxCollider>().Center = new Vector3(0f, -0.5f, 0f);
 

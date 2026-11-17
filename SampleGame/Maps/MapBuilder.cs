@@ -22,7 +22,7 @@ namespace SampleGame
         // One checker square every 2 units, so speed is easy to judge.
         public const float TexturesPerUnit = 0.25f;
 
-        public static Texture Checker(Color a, Color b) => Texture.CreateCheckerboard(a, b, squares: 2);
+        public static Texture Checker(Color a, Color b) => Surfaces.Tiles(a, b);
 
         /// <summary>
         /// A double-sided surf ramp starting at <paramref name="ridgeStart"/>, the top of its near end, and running
@@ -54,7 +54,9 @@ namespace SampleGame
             MeshRenderer renderer = ramp.AddComponent<MeshRenderer>();
             renderer.Mesh = mesh;
             renderer.Material.Texture = texture;
-            renderer.Material.Specular = 0.2f;
+            renderer.Material.NormalMap = Surfaces.NormalMapFor(texture);
+            // A little glossy, so the sky glints along it at speed.
+            renderer.Material.Roughness = 0.4f;
 
             ramp.AddComponent<ConvexCollider>().Mesh = mesh;
 
@@ -117,7 +119,9 @@ namespace SampleGame
             MeshRenderer renderer = ramp.AddComponent<MeshRenderer>();
             renderer.Mesh = mesh;
             renderer.Material.Texture = texture;
-            renderer.Material.Specular = 0.2f;
+            renderer.Material.NormalMap = Surfaces.NormalMapFor(texture);
+            // A little glossy, so the sky glints along it at speed.
+            renderer.Material.Roughness = 0.4f;
 
             ramp.AddComponent<MeshCollider>().Mesh = mesh;
 
@@ -239,7 +243,8 @@ namespace SampleGame
             renderer.Mesh = Primitives.CreateBox(size, TexturesPerUnit);
             renderer.Material.Color = color;
             renderer.Material.Texture = texture;
-            renderer.Material.Specular = 0.1f;
+            renderer.Material.NormalMap = Surfaces.NormalMapFor(texture);
+            renderer.Material.Roughness = 0.7f;
 
             block.AddComponent<BoxCollider>().Size = size;
             return block;
@@ -353,7 +358,7 @@ namespace SampleGame
             MeshRenderer renderer = visual.AddComponent<MeshRenderer>();
             renderer.Mesh = mesh;
             renderer.Material.Color = color;
-            renderer.Material.Specular = 0.1f;
+            renderer.Material.Roughness = 0.6f;
             if (unlit) renderer.Material.Shading = ShadingModel.Unlit;
             return visual;
         }
@@ -367,7 +372,10 @@ namespace SampleGame
             return point;
         }
 
-        /// <summary>A flat water surface, for looks. Pair it with a trigger just below to catch players.</summary>
+        /// <summary>
+        /// A flat water surface, for looks: smooth, so it mirrors the sky, with ripples drifting across it. Pair it with a
+        /// trigger just below to catch players.
+        /// </summary>
         public static GameObject Water(string name, Vector3 centre, Vector2 size)
         {
             var water = new GameObject(name);
@@ -376,8 +384,15 @@ namespace SampleGame
 
             MeshRenderer renderer = water.AddComponent<MeshRenderer>();
             renderer.Mesh = Primitives.Plane;
-            renderer.Material.Color = new Color(0.12f, 0.25f, 0.45f);
-            renderer.Material.Specular = 0.6f;
+            renderer.Material.Color = new Color(0.1f, 0.24f, 0.36f);
+            renderer.Material.Roughness = 0.05f;
+            renderer.Material.NormalMap = Surfaces.Ripples;
+            renderer.Material.NormalStrength = 0.5f;
+            // A ripple pattern every 10 metres, however big the water is.
+            renderer.Material.TextureScale = size / 10f;
+            renderer.CastShadows = false;
+
+            water.AddComponent<WaterFlow>();
             return water;
         }
 

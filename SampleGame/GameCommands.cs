@@ -27,6 +27,14 @@ namespace SampleGame
                 v => Scene.Active.Lighting.CelShading = Math.Clamp(v, 0f, 1f));
             DevConsole.AddVariable("mat_outlines", "How dark the outlines round things are, from 0 (none) to 1.", () => Scene.Active.Lighting.Outlines,
                 v => Scene.Active.Lighting.Outlines = Math.Clamp(v, 0f, 1f));
+            DevConsole.AddVariable("mat_ambientocclusion", "How much corners and the ground under things darken, from 0 (off) to 1.",
+                () => Scene.Active.Lighting.AmbientOcclusion, v => Scene.Active.Lighting.AmbientOcclusion = Math.Clamp(v, 0f, 1f));
+            DevConsole.AddVariable("mat_antialias", "1 smooths jagged edges, 0 doesn't.", () => Scene.Active.Lighting.AntiAliasing ? 1f : 0f,
+                v => Scene.Active.Lighting.AntiAliasing = v >= 0.5f);
+            DevConsole.AddVariable("mat_exposure", "Overall brightness; 1 is normal.", () => Scene.Active.Lighting.Exposure,
+                v => Scene.Active.Lighting.Exposure = MathF.Max(v, 0f));
+            DevConsole.AddVariable("r_clouds", "How cloudy the sky is, from 0 (clear) to 1 (overcast).", () => Scene.Active.Lighting.CloudCover,
+                v => Scene.Active.Lighting.CloudCover = Math.Clamp(v, 0f, 1f));
 
             foreach (ServerVariables.Variable variable in ServerVariables.All)
             {

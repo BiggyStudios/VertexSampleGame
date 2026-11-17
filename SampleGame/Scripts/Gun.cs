@@ -883,9 +883,9 @@ namespace SampleGame
             }
 
             renderer.Material.Color = color;
-            // Metal has small, sharp highlights; polymer only a faint, broad sheen.
-            renderer.Material.Specular = metallic ? 0.6f : 0.15f;
-            renderer.Material.Shininess = metallic ? 64f : 16f;
+            // Metal has small, sharp highlights and mirrors the sky; polymer only a faint, broad sheen.
+            renderer.Material.Metallic = metallic ? 1f : 0f;
+            renderer.Material.Roughness = metallic ? 0.35f : 0.6f;
             // A first-person gun shouldn't throw a shadow onto the world in front of you.
             renderer.CastShadows = false;
         }
