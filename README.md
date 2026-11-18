@@ -16,6 +16,10 @@ git clone https://github.com/BiggyStudios/VertexSampleGame.git
 The engine repo ignores the `VertexSampleGame` folder, so the two stay separate repositories: commit and push each
 from its own folder. Changes to the engine show up in the game straight away.
 
+With the engine somewhere else, point the build at it: `dotnet run --project SampleGame -p:VertexDir=/path/to/Vertex/`
+(the engine repo's folder). Folder names are case-sensitive on Linux. Opening the game in the Vertex editor doesn't need
+either: the editor builds it against its own engine.
+
 ## Running it
 
 ```

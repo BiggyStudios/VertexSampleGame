@@ -7,9 +7,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!-- Where the engine is: by default the engine repo this one is cloned inside (see the README). To use one somewhere
+         else, build with -p:VertexDir=/path/to/Vertex/ -->
+    <VertexDir Condition="'$(VertexDir)' == ''">$(MSBuildThisFileDirectory)..\..\</VertexDir>
+    <VertexProject>$([MSBuild]::NormalizePath('$(VertexDir)', 'Vertex', 'Vertex.csproj'))</VertexProject>
+  </PropertyGroup>
+
   <ItemGroup>
-    <!-- The engine this repo is cloned inside (see the README), so engine changes show up in the game straight away. -->
-    <ProjectReference Include="..\..\Vertex\Vertex.csproj"/>
+    <!-- Built with the game, so engine changes show up in it straight away. -->
+    <ProjectReference Include="$(VertexProject)"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -17,5 +24,11 @@
     <!-- Tells Steam which app this is while developing: 480 is Valve's Spacewar test app. -->
     <None Include="steam_appid.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+
+  <!-- One clear message instead of hundreds of missing types when the engine isn't where it's expected. The Vertex
+       editor brings its own engine, so opening the game in it doesn't need this. -->
+  <Target Name="CheckForVertex" BeforeTargets="ResolveProjectReferences" Condition="'$(VertexEngineFromEditor)' != 'true' and !Exists('$(VertexProject)')">
+    <Error Text="The Vertex engine isn't at $(VertexProject). Clone the game inside the engine repo (see the README), or build with -p:VertexDir=/path/to/Vertex/ (the folder with Vertex.csproj's folder in it). Folder names are case-sensitive on Linux." />
+  </Target>
 
 </Project>
